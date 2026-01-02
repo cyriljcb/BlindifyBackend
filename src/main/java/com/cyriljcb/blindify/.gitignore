@@ -1,0 +1,17 @@
+# Compilations
+/target/
+
+# IDE
+/.idea/
+/*.iml
+*.class
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Secrets
+application.properties
