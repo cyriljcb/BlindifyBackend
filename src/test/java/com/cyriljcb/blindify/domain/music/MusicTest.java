@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import com.cyriljcb.blindify.domain.music.exception.InvalidMusicException;
-
 public class MusicTest {
     @Test
     void should_create_Music_when_inputs_are_valid(){

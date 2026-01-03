@@ -1,4 +1,4 @@
-package com.cyriljcb.blindify.domain.blindtestsettings.port;
+package com.cyriljcb.blindify.domain.blindtestsettings;
 
 public interface MusicTimePort {
     public int getRevealTimeSec ();

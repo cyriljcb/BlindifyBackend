@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.cyriljcb.blindify.domain.blindtesttrack.BlindtestTrack;
 import com.cyriljcb.blindify.domain.music.Music;
-import com.cyriljcb.blindify.domain.trackselector.exception.InvalidTrackSelectorException;
 
 public class TrackSelector {
     public TrackSelector(){
@@ -28,5 +27,4 @@ public class TrackSelector {
         }
         return listTrack;
     }
-
 }

@@ -1,4 +1,4 @@
-package com.cyriljcb.blindify.domain.blindtest.port;
+package com.cyriljcb.blindify.domain.blindtest;
 
 import java.util.List;
 

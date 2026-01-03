@@ -1,4 +1,4 @@
-package com.cyriljcb.blindify.domain.trackselector.exception;
+package com.cyriljcb.blindify.domain.trackselector;
 
 public class InvalidTrackSelectorException extends RuntimeException {
     public InvalidTrackSelectorException (String s){

@@ -2,10 +2,8 @@ package com.cyriljcb.blindify.domain.blindtest;
 
 import java.util.List;
 
-import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestException;
-import com.cyriljcb.blindify.domain.blindtest.port.MusicCatalogPort;
 import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
-import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
+import com.cyriljcb.blindify.domain.blindtestsettings.MusicTimePort;
 import com.cyriljcb.blindify.domain.blindtesttrack.BlindtestTrack;
 import com.cyriljcb.blindify.domain.music.Music;
 import com.cyriljcb.blindify.domain.trackselector.TrackSelector;
@@ -26,7 +24,7 @@ public class StartBlindtestUseCase {
         List<Music> musics = catalogPort.getMusicFromPlaylist();
 
         if (musics == null || musics.isEmpty())
-            throw new InvalidBlindtestException("Liste de musique vide");
+            throw new InvalidBlindtestException("Blindtest requires at least one track in the list");
 
         int rvlTime = timePort.getRevealTimeSec();
         int dscvrTime = timePort.getDiscoveryTimeSec();

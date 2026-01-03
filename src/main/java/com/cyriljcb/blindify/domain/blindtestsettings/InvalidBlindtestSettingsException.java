@@ -1,4 +1,4 @@
-package com.cyriljcb.blindify.domain.blindtestsettings.exception;
+package com.cyriljcb.blindify.domain.blindtestsettings;
 
 public class InvalidBlindtestSettingsException extends RuntimeException {
     public InvalidBlindtestSettingsException (String s){

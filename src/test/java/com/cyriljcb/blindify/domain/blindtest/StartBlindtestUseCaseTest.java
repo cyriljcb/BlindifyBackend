@@ -12,12 +12,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestException;
-import com.cyriljcb.blindify.domain.blindtest.port.MusicCatalogPort;
-import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
+import com.cyriljcb.blindify.domain.blindtestsettings.MusicTimePort;
 import com.cyriljcb.blindify.domain.music.Music;
+import com.cyriljcb.blindify.domain.trackselector.InvalidTrackSelectorException;
 import com.cyriljcb.blindify.domain.trackselector.TrackSelector;
-import com.cyriljcb.blindify.domain.trackselector.exception.InvalidTrackSelectorException;
 
 public class StartBlindtestUseCaseTest {
     private MusicCatalogPort catalogPort;

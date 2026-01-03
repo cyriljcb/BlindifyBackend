@@ -1,5 +1,0 @@
-package com.cyriljcb.blindify.infrastructure.persistence.blindtestsettings;
-
-public class BlindtestSettingsRepositoryAdaoter {
-    
-}
