@@ -7,8 +7,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyAuthProvider;
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyOAuthAuthProvider;
+import com.cyriljcb.blindify.infrastructure.spotify.catalog.SpotifyMusicCatalogAdapter;
 import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyClient;
 import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyHttpClient;
+import com.cyriljcb.blindify.infrastructure.spotify.mapper.SpotifyMusicMapper;
 
 @Configuration
 public class SpotifyConfig {
@@ -44,5 +46,16 @@ public class SpotifyConfig {
                 spotifyRestTemplate,
                 authProvider
         );
+    }
+    @Bean
+    SpotifyMusicMapper spotifyMusicMapper() {
+        return new SpotifyMusicMapper();
+    }
+
+    @Bean
+    SpotifyMusicCatalogAdapter spotifyMusicCatalogAdapter(
+            SpotifyClient spotifyClient,
+            SpotifyMusicMapper mapper) {
+        return new SpotifyMusicCatalogAdapter(spotifyClient, mapper);
     }
 }
