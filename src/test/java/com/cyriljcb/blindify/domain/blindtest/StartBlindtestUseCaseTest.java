@@ -12,8 +12,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.cyriljcb.blindify.domain.blindtestsettings.MusicTimePort;
+import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
 import com.cyriljcb.blindify.domain.music.Music;
+import com.cyriljcb.blindify.domain.music.port.MusicCatalogPort;
 import com.cyriljcb.blindify.domain.trackselector.InvalidTrackSelectorException;
 import com.cyriljcb.blindify.domain.trackselector.TrackSelector;
 
@@ -36,7 +37,7 @@ public class StartBlindtestUseCaseTest {
             new Music("3333333","Track3",35000,null,null,null,null,null,null)
         ));
 
-        when(catalogPort.getMusicFromPlaylist()).thenReturn(musics);
+        when(catalogPort.getMusicFromPlaylist("1")).thenReturn(musics);
         when(timePort.getRevealTimeSec()).thenReturn(10);
         when(timePort.getDiscoveryTimeSec()).thenReturn(20);
 
@@ -49,7 +50,7 @@ public class StartBlindtestUseCaseTest {
     @Test
     void should_throw_an_exception_when_music_list_is_empty(){
 
-        when(catalogPort.getMusicFromPlaylist()).thenReturn(List.of());
+        when(catalogPort.getMusicFromPlaylist("1")).thenReturn(List.of());
         when(timePort.getRevealTimeSec()).thenReturn(10);
         when(timePort.getDiscoveryTimeSec()).thenReturn(20);
         
@@ -60,9 +61,9 @@ public class StartBlindtestUseCaseTest {
         
         
         InvalidBlindtestException ex = assertThrows(InvalidBlindtestException.class,
-            () -> useCase.start(3));
+            () -> useCase.start("1",3));
 
-        assertEquals("Liste de musique vide", ex.getMessage());
+        assertEquals("Blindtest requires at least one track in the list", ex.getMessage());
     }
 
     @Test
@@ -72,14 +73,14 @@ public class StartBlindtestUseCaseTest {
             new Music("2222222","Track2",25000,null,null,null,null,null,null),
             new Music("3333333","Track3",35000,null,null,null,null,null,null)
         ));
-        when(catalogPort.getMusicFromPlaylist()).thenReturn(musics);
+        when(catalogPort.getMusicFromPlaylist("1")).thenReturn(musics);
         when(timePort.getRevealTimeSec()).thenReturn(10);
         when(timePort.getDiscoveryTimeSec()).thenReturn(20);
 
         StartBlindtestUseCase useCase = new StartBlindtestUseCase(catalogPort, timePort,new TrackSelector());
 
-        InvalidTrackSelectorException ex = assertThrows(InvalidTrackSelectorException.class, ()-> useCase.start(0));
-        assertEquals("Liste ou le nombre de titre est à 0", ex.getMessage());
+        InvalidTrackSelectorException ex = assertThrows(InvalidTrackSelectorException.class, ()-> useCase.start("1",0));
+        assertEquals("Blindtest requires at least one track in the list", ex.getMessage());
     }
     
 }

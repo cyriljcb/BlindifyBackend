@@ -22,7 +22,6 @@ public class TrackSelector {
         Collections.shuffle(listMusics);
         for(int i = 0; i<nbrTitle;i++ )
         {
-            
             listTrack.add(new BlindtestTrack(listMusics.get(i)));
         }
         return listTrack;

@@ -14,4 +14,7 @@ public class Blindtest {
         this.tracks = musicsList;
         this.settings = settings;
     }
+    public int trackCount() {
+        return tracks.size();
+    }
 }

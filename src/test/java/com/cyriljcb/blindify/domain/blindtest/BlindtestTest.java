@@ -31,14 +31,14 @@ public class BlindtestTest {
         blindtestsettings = new BlindtestSettings(10, 10);
 
         InvalidBlindtestException ex = assertThrows(InvalidBlindtestException.class, ()->new Blindtest(null, blindtestsettings) );
-        assertEquals("élément vide", ex.getMessage());
+        assertEquals("Blindtest requires at least one track and valid settings", ex.getMessage());
     }
     @Test
     void should_throw_an_exception_when_blindtestTrack_is_empty(){
         blindtestsettings = new BlindtestSettings(10, 10);
         List<BlindtestTrack> track = new ArrayList<>();
         InvalidBlindtestException ex = assertThrows(InvalidBlindtestException.class, ()->new Blindtest(track, blindtestsettings) );
-        assertEquals("élément vide", ex.getMessage());
+        assertEquals("Blindtest requires at least one track and valid settings", ex.getMessage());
     }
     @Test
     void should_throw_an_exception_when_blindtestSettings_is_null(){
@@ -47,6 +47,6 @@ public class BlindtestTest {
             new BlindtestTrack(new Music("2","Track2",25000,null,null,null,null,null,null))
         );
          InvalidBlindtestException ex = assertThrows(InvalidBlindtestException.class, ()->new Blindtest(tracks,null));
-        assertEquals("élément vide", ex.getMessage());
+        assertEquals("Blindtest requires at least one track and valid settings", ex.getMessage());
     }
 }

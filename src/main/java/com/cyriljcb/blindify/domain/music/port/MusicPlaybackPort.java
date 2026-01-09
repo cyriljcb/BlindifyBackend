@@ -1,4 +1,4 @@
-package com.cyriljcb.blindify.domain.blindtest;
+package com.cyriljcb.blindify.domain.music.port;
 
 public interface MusicPlaybackPort {
     public void startMusic();

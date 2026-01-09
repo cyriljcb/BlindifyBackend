@@ -26,4 +26,13 @@ public class Music {
         this.genres = genres;
         this.releaseYear = releaseYear;
     }
+    public String getId(){
+        return this.id;
+    }
+    public String getTitle(){
+        return this.name;
+    }
+    public int getDurationMs(){
+        return this.durationMs;
+    }
 }

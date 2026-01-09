@@ -17,12 +17,12 @@ public class BlindtestSettingsTest {
     void should_throw_an_exception_when_discovertime_is_0(){
         InvalidBlindtestSettingsException ex = assertThrows(InvalidBlindtestSettingsException.class,()->new BlindtestSettings(10,0) );
         
-        assertEquals(ex.getMessage(),"Les valeurs doivent être strictement positives");
+        assertEquals(ex.getMessage(),"The durations must be strictly positive");
     }
     @Test
     void should_throw_an_exception_when_revealtime_is_0(){
         InvalidBlindtestSettingsException ex = assertThrows(InvalidBlindtestSettingsException.class,()->new BlindtestSettings(0,10) );
         
-        assertEquals(ex.getMessage(),"Les valeurs doivent être strictement positives");
+        assertEquals(ex.getMessage(),"The durations must be strictly positive");
     }
 }
