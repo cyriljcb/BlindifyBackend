@@ -24,6 +24,11 @@ public class StartBlindtestUseCase {
     public Blindtest start(String playlistId,int nbrTrack) {
         List<Music> musics = catalogPort.getMusicFromPlaylist(playlistId);
 
+        if (nbrTrack <= 0) {
+            throw new InvalidBlindtestException(
+                "Number of tracks must be greater than zero"
+            );
+        }
         if (musics == null || musics.isEmpty())
             throw new InvalidBlindtestException("Blindtest requires at least one track in the list");
 

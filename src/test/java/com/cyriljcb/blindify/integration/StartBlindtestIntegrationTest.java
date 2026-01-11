@@ -28,7 +28,6 @@ public class StartBlindtestIntegrationTest {
      @Test
     void should_start_blindtest_with_spotify_catalog() {
 
-        // --- Infra ---
         RestTemplate restTemplate = mock(RestTemplate.class);
         SpotifyAuthProvider authProvider = mock(SpotifyAuthProvider.class);
 
@@ -40,7 +39,6 @@ public class StartBlindtestIntegrationTest {
         MusicCatalogPort catalogPort =
                 new SpotifyMusicCatalogAdapter(spotifyClient, mapper);
 
-        // --- Domaine ---
         MusicTimePort timePort = mock(MusicTimePort.class);
         when(timePort.getRevealTimeSec()).thenReturn(10);
         when(timePort.getDiscoveryTimeSec()).thenReturn(20);
@@ -50,18 +48,17 @@ public class StartBlindtestIntegrationTest {
         StartBlindtestUseCase useCase =
                 new StartBlindtestUseCase(catalogPort, timePort, trackSelector);
 
-        // --- Spotify API mock ---
         SpotifyPlaylistResponse response = FakeSpotifyResponses.oneTrack();
 
         when(authProvider.getAccessToken()).thenReturn("token");
         when(restTemplate.exchange(anyString(), any(), any(), eq(SpotifyPlaylistResponse.class)))
                 .thenReturn(ResponseEntity.ok(response));
 
-        // --- WHEN ---
         Blindtest blindtest = useCase.start("playlist-123", 1);
 
-        // --- THEN ---
         assertNotNull(blindtest);
         assertEquals(1, blindtest.trackCount());
     }
+
+    
 }

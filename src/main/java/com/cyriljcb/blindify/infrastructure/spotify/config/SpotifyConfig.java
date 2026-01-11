@@ -6,12 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
 
+import com.cyriljcb.blindify.domain.music.port.MusicPlaybackPort;
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyAuthProvider;
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyOAuthAuthProvider;
 import com.cyriljcb.blindify.infrastructure.spotify.catalog.SpotifyMusicCatalogAdapter;
 import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyClient;
 import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyHttpClient;
 import com.cyriljcb.blindify.infrastructure.spotify.mapper.SpotifyMusicMapper;
+import com.cyriljcb.blindify.infrastructure.spotify.playback.SpotifyMusicPlaybackAdapter;
 
 @Profile("!test")
 @Configuration
@@ -25,6 +27,9 @@ public class SpotifyConfig {
 
     @Value("${spotify.client-secret}")
     private String clientSecret;
+
+    @Value("${spotify.api-base-url}")
+    private String apiBaseUrl;
 
     @Bean
     public RestTemplate spotifyRestTemplate() {
@@ -42,22 +47,35 @@ public class SpotifyConfig {
     }
 
     @Bean
-    public SpotifyClient spotifyClient(RestTemplate spotifyRestTemplate,
-                                       SpotifyAuthProvider authProvider) {
+    public SpotifyClient spotifyClient(
+            RestTemplate spotifyRestTemplate,
+            SpotifyAuthProvider authProvider) {
         return new SpotifyHttpClient(
                 spotifyRestTemplate,
                 authProvider
         );
     }
+
     @Bean
-    SpotifyMusicMapper spotifyMusicMapper() {
+    public SpotifyMusicMapper spotifyMusicMapper() {
         return new SpotifyMusicMapper();
     }
 
     @Bean
-    SpotifyMusicCatalogAdapter spotifyMusicCatalogAdapter(
+    public SpotifyMusicCatalogAdapter spotifyMusicCatalogAdapter(
             SpotifyClient spotifyClient,
             SpotifyMusicMapper mapper) {
         return new SpotifyMusicCatalogAdapter(spotifyClient, mapper);
+    }
+
+    @Bean
+    public MusicPlaybackPort spotifyMusicPlaybackAdapter(
+            RestTemplate spotifyRestTemplate,
+            SpotifyAuthProvider authProvider) {
+        return new SpotifyMusicPlaybackAdapter(
+                spotifyRestTemplate,
+                authProvider,
+                apiBaseUrl
+        );
     }
 }
