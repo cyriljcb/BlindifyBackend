@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.cyriljcb.blindify.domain.blindtesttrack.BlindtestTrack;
 import com.cyriljcb.blindify.domain.music.Music;
 
+@Component
 public class TrackSelector {
     public TrackSelector(){
         

@@ -3,6 +3,7 @@ package com.cyriljcb.blindify.infrastructure.spotify.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
 
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyAuthProvider;
@@ -12,6 +13,7 @@ import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyClient;
 import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyHttpClient;
 import com.cyriljcb.blindify.infrastructure.spotify.mapper.SpotifyMusicMapper;
 
+@Profile("!test")
 @Configuration
 public class SpotifyConfig {
 
