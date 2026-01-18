@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.cyriljcb.blindify.domain.blindtest.InvalidBlindtestException;
+import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestException;
+import com.cyriljcb.blindify.domain.blindtest.exception.NoActiveBlindtestException;
+import com.cyriljcb.blindify.domain.blindtest.exception.NoMoreTrackException;
 import com.cyriljcb.blindify.infrastructure.spotify.catalog.SpotifyCatalogException;
 import com.cyriljcb.blindify.infrastructure.web.dto.ApiErrorResponse;
 
@@ -48,4 +50,26 @@ public class GlobalExceptionHandler {
                 "Unexpected error occurred"
             ));
     }
+    @ExceptionHandler(NoActiveBlindtestException.class)
+    public ResponseEntity<ApiErrorResponse> handleNoActiveBlindtest(NoActiveBlindtestException ex) {
+        return ResponseEntity
+            .status(HttpStatus.CONFLICT) // 409
+            .body(ApiErrorResponse.of(
+                409,
+                "NO_ACTIVE_BLINDTEST",
+                ex.getMessage()
+            ));
+    }
+
+    @ExceptionHandler(NoMoreTrackException.class)
+    public ResponseEntity<ApiErrorResponse> handleNoMoreTrack(NoMoreTrackException ex) {
+        return ResponseEntity
+            .status(HttpStatus.GONE) // 410
+            .body(ApiErrorResponse.of(
+                410,
+                "NO_MORE_TRACK",
+                ex.getMessage()
+            ));
+    }
+
 }

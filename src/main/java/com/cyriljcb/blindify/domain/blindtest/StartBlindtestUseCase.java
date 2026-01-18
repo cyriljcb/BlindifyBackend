@@ -1,11 +1,10 @@
 package com.cyriljcb.blindify.domain.blindtest;
 
-import java.util.List;
 
+import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestException;
+import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
 import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
-import com.cyriljcb.blindify.domain.blindtesttrack.BlindtestTrack;
-import com.cyriljcb.blindify.domain.music.Music;
 import com.cyriljcb.blindify.domain.music.port.MusicCatalogPort;
 import com.cyriljcb.blindify.domain.trackselector.TrackSelector;
 
@@ -14,34 +13,44 @@ public class StartBlindtestUseCase {
     private final MusicCatalogPort catalogPort;
     private final MusicTimePort timePort;
     private final TrackSelector trackSelector;
+    private final BlindtestSessionRepository sessionRepository;
 
-    public StartBlindtestUseCase(MusicCatalogPort catalogPort,MusicTimePort timePort,TrackSelector trackSelector) {
+    public StartBlindtestUseCase(
+            MusicCatalogPort catalogPort,
+            MusicTimePort timePort,
+            TrackSelector trackSelector,
+            BlindtestSessionRepository sessionRepository
+    ) {
         this.catalogPort = catalogPort;
         this.timePort = timePort;
         this.trackSelector = trackSelector;
+        this.sessionRepository = sessionRepository;
     }
 
-    public Blindtest start(String playlistId,int nbrTrack) {
-        List<Music> musics = catalogPort.getMusicFromPlaylist(playlistId);
-
+    public void start(String playlistId, int nbrTrack) {
         if (nbrTrack <= 0) {
             throw new InvalidBlindtestException(
                 "Number of tracks must be greater than zero"
             );
         }
-        if (musics == null || musics.isEmpty())
-            throw new InvalidBlindtestException("Blindtest requires at least one track in the list");
 
-        int rvlTime = timePort.getRevealTimeSec();
-        int dscvrTime = timePort.getDiscoveryTimeSec();
+        var musics = catalogPort.getMusicFromPlaylist(playlistId);
+        if (musics == null || musics.isEmpty()) {
+            throw new InvalidBlindtestException(
+                "Blindtest requires at least one track"
+            );
+        }
 
-        BlindtestSettings settings =
-            new BlindtestSettings(rvlTime, dscvrTime);
+        var settings = new BlindtestSettings(
+            timePort.getRevealTimeSec(),
+            timePort.getDiscoveryTimeSec()
+        );
 
-        List<BlindtestTrack> tracks =
-            trackSelector.createTrackPlaylist(musics, nbrTrack);
+        var tracks = trackSelector.createTrackPlaylist(musics, nbrTrack);
 
-        return new Blindtest(tracks, settings);
+        var blindtest = new Blindtest(tracks, settings);
+        blindtest.start();
+        sessionRepository.save(blindtest);
     }
 }
 

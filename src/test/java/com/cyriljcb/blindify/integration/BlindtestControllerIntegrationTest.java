@@ -28,14 +28,14 @@ class BlindtestControllerIntegrationTest {
         StartBlindtestRequest request =
             new StartBlindtestRequest("fake-playlist", 2);
 
-        BlindtestResponse response =
-            restTemplate.postForObject(
+        ResponseEntity<Void> response =
+            restTemplate.postForEntity(
                 "/blindtest/start",
                 request,
-                BlindtestResponse.class
+                Void.class
             );
-        assertNotNull(response);
-        assertEquals(2, response.trackCount());
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        assertNull(response.getBody());
     }
     @Test
     void should_return_400_when_tracks_is_invalid() {

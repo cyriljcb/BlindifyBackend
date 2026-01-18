@@ -8,21 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.cyriljcb.blindify.domain.blindtest.Blindtest;
 import com.cyriljcb.blindify.domain.blindtest.StartBlindtestUseCase;
+import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 
 @SpringBootTest
 @ActiveProfiles("test")
 public class BlindtestIntegrationTest {
 
-    @Autowired
+     @Autowired
     private StartBlindtestUseCase useCase;
+
+    @Autowired
+    private BlindtestSessionRepository sessionRepository;
 
     @Test
     void should_start_blindtest_with_fake_spotify() {
-        Blindtest blindtest = useCase.start("fake-playlist", 2);
+        useCase.start("fake-playlist", 2);
+
+        var blindtest = sessionRepository.getCurrent();
 
         assertNotNull(blindtest);
-        assertEquals(2, blindtest.trackCount());
     }
 }

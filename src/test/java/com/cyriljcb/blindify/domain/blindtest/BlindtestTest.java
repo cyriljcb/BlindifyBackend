@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestException;
 import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
 import com.cyriljcb.blindify.domain.blindtesttrack.BlindtestTrack;
 import com.cyriljcb.blindify.domain.music.Music;
