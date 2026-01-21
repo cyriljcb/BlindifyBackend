@@ -12,7 +12,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestException;
+import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestConfigurationException;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
 import com.cyriljcb.blindify.domain.music.Music;
@@ -66,9 +66,9 @@ public class StartBlindtestUseCaseTest {
 
          when(catalogPort.getMusicFromPlaylist("playlist")).thenReturn(List.of());
 
-        InvalidBlindtestException ex =
+        InvalidBlindtestConfigurationException ex =
             assertThrows(
-                InvalidBlindtestException.class,
+                InvalidBlindtestConfigurationException.class,
                 () -> useCase.start("playlist", 2)
             );
 
@@ -77,9 +77,9 @@ public class StartBlindtestUseCaseTest {
 
     @Test
     void should_throw_an_exception_when_nbrTrack_is_less_than_0(){
-      InvalidBlindtestException ex =
+      InvalidBlindtestConfigurationException ex =
         assertThrows(
-            InvalidBlindtestException.class,
+            InvalidBlindtestConfigurationException.class,
             () -> useCase.start("playlist", 0)
         );
 

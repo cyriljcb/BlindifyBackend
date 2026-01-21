@@ -56,12 +56,7 @@ public class BlindtestPlaybackUseCase {
     }
 
     private Blindtest getActiveBlindtest() {
-        var blindtest = sessionRepository.getCurrent();
-
-        if (blindtest == null) {
-            throw new NoActiveBlindtestException();
-        }
-
-        return blindtest;
+        return sessionRepository.getCurrent()
+                .orElseThrow(NoActiveBlindtestException::new);
     }
 }

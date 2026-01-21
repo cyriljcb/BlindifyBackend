@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
 
+import com.cyriljcb.blindify.domain.blindtest.BlindtestPlaybackUseCase;
+import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.domain.music.port.MusicPlaybackPort;
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyAuthProvider;
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyOAuthAuthProvider;
@@ -78,4 +80,12 @@ public class SpotifyConfig {
                 apiBaseUrl
         );
     }
+    @Bean
+    BlindtestPlaybackUseCase blindtestPlaybackUseCase(
+            MusicPlaybackPort playbackPort,
+            BlindtestSessionRepository sessionRepository
+    ) {
+        return new BlindtestPlaybackUseCase(playbackPort, sessionRepository);
+    }
+
 }

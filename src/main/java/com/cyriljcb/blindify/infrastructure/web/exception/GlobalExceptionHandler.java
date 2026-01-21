@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestException;
 import com.cyriljcb.blindify.domain.blindtest.exception.NoActiveBlindtestException;
 import com.cyriljcb.blindify.domain.blindtest.exception.NoMoreTrackException;
 import com.cyriljcb.blindify.infrastructure.spotify.catalog.SpotifyCatalogException;
@@ -17,18 +16,18 @@ import com.cyriljcb.blindify.infrastructure.web.dto.ApiErrorResponse;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(InvalidBlindtestException.class)
-    public ResponseEntity<ApiErrorResponse> handleInvalidBlindtest(
-            InvalidBlindtestException ex
-    ) {
-        return ResponseEntity
-            .badRequest()
-            .body(ApiErrorResponse.of(
-                400,
-                "INVALID_BLINDTEST",
-                ex.getMessage()
-            ));
-    }
+    // @ExceptionHandler(InvalidBlindtestException.class)
+    // public ResponseEntity<ApiErrorResponse> handleInvalidBlindtest(
+    //         InvalidBlindtestException ex
+    // ) {
+    //     return ResponseEntity
+    //         .badRequest()
+    //         .body(ApiErrorResponse.of(
+    //             400,
+    //             "INVALID_BLINDTEST",
+    //             ex.getMessage()
+    //         ));
+    // }
 
     @ExceptionHandler(SpotifyCatalogException.class)
     public ResponseEntity<ApiErrorResponse> handleSpotifyError(

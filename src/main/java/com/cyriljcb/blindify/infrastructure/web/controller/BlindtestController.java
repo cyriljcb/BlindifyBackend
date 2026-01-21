@@ -36,13 +36,15 @@ public class BlindtestController {
     }
     @GetMapping("/state")
     public BlindtestStateResponse state() {
-        var blindtest = sessionRepository.getCurrent();
-        if (blindtest == null || blindtest.isFinished()) {
-        throw new NoActiveBlindtestException("No blindtest is currently active");
-        }
+        var blindtest = sessionRepository.getCurrent()
+                .filter(bt -> !bt.isFinished())
+                .orElseThrow(() ->
+                    new NoActiveBlindtestException("No blindtest is currently active")
+                );
 
         return BlindtestStateResponse.from(blindtest);
     }
+
 
 
 }

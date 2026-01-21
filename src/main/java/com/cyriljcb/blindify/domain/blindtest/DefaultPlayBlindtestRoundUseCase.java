@@ -1,5 +1,6 @@
 package com.cyriljcb.blindify.domain.blindtest;
 
+import com.cyriljcb.blindify.domain.blindtest.exception.NoActiveBlindtestException;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
 import com.cyriljcb.blindify.domain.music.port.MusicPlaybackPort;
@@ -24,7 +25,9 @@ public class DefaultPlayBlindtestRoundUseCase
     @Override
     public void playCurrentRound() {
 
-        var blindtest = sessionRepository.getCurrent();
+        var blindtest = sessionRepository.getCurrent()
+                .orElseThrow(NoActiveBlindtestException::new);
+
         var track = blindtest.getCurrentTrack();
 
         // 1️⃣ Play

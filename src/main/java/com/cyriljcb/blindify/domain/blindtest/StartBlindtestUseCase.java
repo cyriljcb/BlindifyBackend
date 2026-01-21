@@ -1,7 +1,7 @@
 package com.cyriljcb.blindify.domain.blindtest;
 
 
-import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestException;
+import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestConfigurationException;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
 import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
@@ -29,14 +29,14 @@ public class StartBlindtestUseCase {
 
     public void start(String playlistId, int nbrTrack) {
         if (nbrTrack <= 0) {
-            throw new InvalidBlindtestException(
+            throw new InvalidBlindtestConfigurationException(
                 "Number of tracks must be greater than zero"
             );
         }
 
         var musics = catalogPort.getMusicFromPlaylist(playlistId);
         if (musics == null || musics.isEmpty()) {
-            throw new InvalidBlindtestException(
+            throw new InvalidBlindtestConfigurationException(
                 "Blindtest requires at least one track"
             );
         }
