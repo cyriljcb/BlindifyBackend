@@ -1,6 +1,5 @@
 package com.cyriljcb.blindify.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.cyriljcb.blindify.domain.blindtest.Blindtest;
 import com.cyriljcb.blindify.domain.blindtest.StartBlindtestUseCase;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;

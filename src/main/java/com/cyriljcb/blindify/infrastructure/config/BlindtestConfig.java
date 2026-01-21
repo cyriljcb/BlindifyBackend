@@ -3,10 +3,13 @@ package com.cyriljcb.blindify.infrastructure.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.cyriljcb.blindify.domain.blindtest.DefaultPlayBlindtestRoundUseCase;
+import com.cyriljcb.blindify.domain.blindtest.PlayBlindtestRoundUseCase;
 import com.cyriljcb.blindify.domain.blindtest.StartBlindtestUseCase;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
 import com.cyriljcb.blindify.domain.music.port.MusicCatalogPort;
+import com.cyriljcb.blindify.domain.music.port.MusicPlaybackPort;
 import com.cyriljcb.blindify.domain.trackselector.TrackSelector;
 
 @Configuration
@@ -22,6 +25,18 @@ public class BlindtestConfig {
                 catalogPort,
                 timePort,
                 trackSelector,
+                sessionRepository
+        );
+    }
+    @Bean
+    PlayBlindtestRoundUseCase playBlindtestRoundUseCase(
+            MusicPlaybackPort playbackPort,
+            MusicTimePort timePort,
+            BlindtestSessionRepository sessionRepository
+    ) {
+        return new DefaultPlayBlindtestRoundUseCase(
+                playbackPort,
+                timePort,
                 sessionRepository
         );
     }

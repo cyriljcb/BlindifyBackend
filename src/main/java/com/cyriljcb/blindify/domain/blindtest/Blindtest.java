@@ -69,4 +69,11 @@ public class Blindtest {
     public boolean isFinished() {
         return state == BlindtestState.FINISHED;
     }
+
+    public int getTrackCount() {
+        return tracks.size();
+    }
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
 }

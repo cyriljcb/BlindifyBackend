@@ -2,8 +2,11 @@ package com.cyriljcb.blindify.infrastructure.web.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestException;
 import com.cyriljcb.blindify.domain.blindtest.exception.NoActiveBlindtestException;
@@ -42,6 +45,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGeneric(Exception ex) {
+        ex.printStackTrace();
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(ApiErrorResponse.of(
@@ -71,5 +75,17 @@ public class GlobalExceptionHandler {
                 ex.getMessage()
             ));
     }
+    
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleNoResource(NoResourceFoundException ex) {
+        return ResponseEntity
+            .status(HttpStatus.NOT_FOUND) 
+            .body(ApiErrorResponse.of(
+                404,
+                "NOT_FOUND",
+                ex.getMessage()
+            ));
+    }
+
 
 }
