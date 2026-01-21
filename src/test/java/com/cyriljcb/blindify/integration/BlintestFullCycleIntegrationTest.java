@@ -53,12 +53,12 @@ class BlindtestFullCycleIntegrationTest {
                 .andExpect(jsonPath("$.finished").value(false));
 
         // // 5️ NEXT → fin
-        // mockMvc.perform(post("/blindtest/playback/next"))
-        //         .andExpect(status().isNoContent());
+        mockMvc.perform(post("/blindtest/playback/next"))
+                .andExpect(status().isNoContent());
 
         // // 6️ STATE - terminé
-        // mockMvc.perform(get("/blindtest/state"))
-        //         .andExpect(status().isOk())
-        //         .andExpect(jsonPath("$.finished").value(true));
+        mockMvc.perform(get("/blindtest/state"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.finished").value(true));
     }
 }

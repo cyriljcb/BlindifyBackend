@@ -1,6 +1,6 @@
 package com.cyriljcb.blindify.domain.blindtest.exception;
 
-public class NoActiveBlindtestException extends RuntimeException {
+public class NoActiveBlindtestException extends BlindtestException {
     public NoActiveBlindtestException() {
         super("No active blindtest session");
     }

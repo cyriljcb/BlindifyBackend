@@ -50,9 +50,9 @@ class BlindtestControllerIntegrationTest {
             );
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals("INVALID_BLINDTEST", response.getBody().error());
+        assertEquals("INVALID_BLINDTEST_CONFIGURATION", response.getBody().error());
         assertEquals(400, response.getStatusCode().value());
-        assertEquals("INVALID_BLINDTEST", response.getBody().error());
+        assertEquals("INVALID_BLINDTEST_CONFIGURATION", response.getBody().error());
     }
 
 }

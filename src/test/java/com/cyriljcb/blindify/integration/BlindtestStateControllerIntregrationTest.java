@@ -45,10 +45,11 @@ class BlindtestStateControllerIntegrationTest {
     }
 
     @Test
-    void should_return_409_when_no_blindtest_is_active() throws Exception {
+    void should_return_404_when_no_blindtest_is_active() throws Exception {
         mockMvc.perform(get("/blindtest/state"))
-                .andExpect(status().isConflict())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").value("NO_ACTIVE_BLINDTEST"))
-                .andExpect(jsonPath("$.status").value(409));
+                .andExpect(jsonPath("$.status").value(404));
     }
+
 }
