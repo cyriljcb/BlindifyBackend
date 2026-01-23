@@ -52,7 +52,7 @@ public class SpotifyAuthorizationCodeService {
 
         SpotifyTokenResponse response =
                 restTemplate.postForObject(
-                        authUrl + "/api/token",
+                        authUrl,
                         request,
                         SpotifyTokenResponse.class
                 );
