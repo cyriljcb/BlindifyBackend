@@ -133,24 +133,24 @@ public class SpotifyConfig {
     // AUTHORIZATION CODE FLOW
     // ------------------------------------------------------------------
 
-@Bean
-public SpotifyAuthorizationCodeService spotifyAuthorizationCodeService(
-        RestTemplate spotifyRestTemplate,
-        @Qualifier("userAuth") SpotifyAuthProvider authProvider,
-        @Value("${spotify.auth-url}") String authUrl,
-        @Value("${spotify.client-id}") String clientId,
-        @Value("${spotify.client-secret}") String clientSecret,
-        @Value("${spotify.redirect-uri}") String redirectUri
-) {
-    return new SpotifyAuthorizationCodeService(
-            spotifyRestTemplate,
-            (SpotifyUserAuthProvider) authProvider,
-            authUrl,
-            clientId,
-            clientSecret,
-            redirectUri
-    );
-}
+        @Bean
+        public SpotifyAuthorizationCodeService spotifyAuthorizationCodeService(
+                RestTemplate spotifyRestTemplate,
+                @Qualifier("userAuth") SpotifyAuthProvider authProvider,
+                @Value("${spotify.auth-url}") String authUrl,
+                @Value("${spotify.client-id}") String clientId,
+                @Value("${spotify.client-secret}") String clientSecret,
+                @Value("${spotify.redirect-uri}") String redirectUri
+        ) {
+        return new SpotifyAuthorizationCodeService(
+                spotifyRestTemplate,
+                (SpotifyUserAuthProvider) authProvider,
+                authUrl,
+                clientId,
+                clientSecret,
+                redirectUri
+        );
+        }
 
 
 }

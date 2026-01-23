@@ -96,9 +96,14 @@ public class SpotifyMusicPlaybackAdapter implements MusicPlaybackPort {
             + "/seek?position_ms=" + (sec * 1000);
         sendPutRequest(url);
     }
+    @Override
+    public void resume() {
+        sendPutRequest(apiBaseUrl + PLAYER_PATH + "/play");
+    }
+
 
     // =========================================================
-    // 🔑 Device handling
+    //  Device handling
     // =========================================================
 
     private String resolveActiveDeviceId() {
@@ -128,7 +133,6 @@ public class SpotifyMusicPlaybackAdapter implements MusicPlaybackPort {
                 );
             }
 
-            // 🔥 priorité au device actif
             return devices.stream()
                 .filter(d -> Boolean.TRUE.equals(d.get("is_active")))
                 .map(d -> (String) d.get("id"))

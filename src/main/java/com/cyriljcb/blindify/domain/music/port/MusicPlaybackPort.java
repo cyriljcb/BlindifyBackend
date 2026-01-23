@@ -5,4 +5,5 @@ public interface MusicPlaybackPort {
     void pause();
     void stop();
     void seekToSecond(int seconds);
+    void resume();
 }

@@ -7,6 +7,7 @@ import com.cyriljcb.blindify.domain.blindtest.DefaultPlayBlindtestRoundUseCase;
 import com.cyriljcb.blindify.domain.blindtest.PlayBlindtestRoundUseCase;
 import com.cyriljcb.blindify.domain.blindtest.StartBlindtestUseCase;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
+import com.cyriljcb.blindify.domain.blindtest.port.GameSchedulerPort;
 import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
 import com.cyriljcb.blindify.domain.music.port.MusicCatalogPort;
 import com.cyriljcb.blindify.domain.music.port.MusicPlaybackPort;
@@ -32,12 +33,14 @@ public class BlindtestConfig {
     PlayBlindtestRoundUseCase playBlindtestRoundUseCase(
             MusicPlaybackPort playbackPort,
             MusicTimePort timePort,
-            BlindtestSessionRepository sessionRepository
+            BlindtestSessionRepository sessionRepository,
+            GameSchedulerPort schedulerPort
     ) {
         return new DefaultPlayBlindtestRoundUseCase(
                 playbackPort,
                 timePort,
-                sessionRepository
+                sessionRepository,
+                schedulerPort
         );
     }
 }
