@@ -12,4 +12,7 @@ public class SpotifyTokenResponse {
 
     @JsonProperty("expires_in")
     public int expiresIn;
+
+    @JsonProperty("refresh_token")
+    public String refreshToken;
 }

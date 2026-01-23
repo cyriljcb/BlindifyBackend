@@ -1,0 +1,41 @@
+package com.cyriljcb.blindify.infrastructure.web.controller;
+
+import java.io.IOException;
+
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+@RestController
+@RequestMapping("/auth/spotify")
+public class SpotifyAuthController {
+
+    @Value("${spotify.client-id}")
+    private String clientId;
+
+    @Value("${spotify.redirect-uri}")
+    private String redirectUri;
+
+    @GetMapping("/login")
+    public void redirectToSpotify(HttpServletResponse response)
+            throws IOException {
+
+        String url = UriComponentsBuilder
+            .fromHttpUrl("https://accounts.spotify.com/authorize")
+            .queryParam("client_id", clientId)
+            .queryParam("response_type", "code")
+            .queryParam("redirect_uri", redirectUri)
+            .queryParam(
+                "scope",
+                "user-read-playback-state user-modify-playback-state"
+            )
+            .build()
+            .toUriString();
+
+        response.sendRedirect(url);
+    }
+}

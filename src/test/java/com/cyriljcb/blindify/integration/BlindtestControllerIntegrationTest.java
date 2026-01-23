@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.cyriljcb.blindify.infrastructure.web.dto.ApiErrorResponse;
-import com.cyriljcb.blindify.infrastructure.web.dto.BlindtestResponse;
 import com.cyriljcb.blindify.infrastructure.web.dto.StartBlindtestRequest;
 
 @SpringBootTest(

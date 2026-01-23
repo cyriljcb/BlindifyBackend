@@ -9,20 +9,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyOAuthAuthProvider;
+import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyClientCredentialsAuthProvider;
 import com.cyriljcb.blindify.infrastructure.spotify.auth.dto.SpotifyTokenResponse;
 
 class SpotifyOAuthAuthProviderTest {
 
     
     private RestTemplate restTemplate;
-    private SpotifyOAuthAuthProvider authProvider;
+    private SpotifyClientCredentialsAuthProvider authProvider;
 
     @BeforeEach
     void setUp() {
         restTemplate = mock(RestTemplate.class);
 
-        authProvider = new SpotifyOAuthAuthProvider(
+        authProvider = new SpotifyClientCredentialsAuthProvider(
                 restTemplate,
                 "https://accounts.spotify.com/api/token",
                 "client-id",
