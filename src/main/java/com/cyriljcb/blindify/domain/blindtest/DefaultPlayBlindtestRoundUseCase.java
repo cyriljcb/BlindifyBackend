@@ -4,7 +4,6 @@ import com.cyriljcb.blindify.domain.blindtest.exception.NoActiveBlindtestExcepti
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.domain.blindtest.port.GameSchedulerPort;
 import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
-import com.cyriljcb.blindify.domain.blindtesttrack.BlindtestTrack;
 import com.cyriljcb.blindify.domain.music.port.MusicPlaybackPort;
 
 public class DefaultPlayBlindtestRoundUseCase
@@ -42,30 +41,41 @@ public class DefaultPlayBlindtestRoundUseCase
         var discoveryTime = timePort.getDiscoveryTimeSec();
         var revealTime = timePort.getRevealTimeSec();
 
-        // 1️⃣ Discovery : début du morceau
+        /* ======================
+           DISCOVERY
+           ====================== */
+        blindtest.startDiscovery();
         playbackPort.playTrack(track.getMusic().getId());
 
-        // 2️⃣ Pause après discovery
         scheduler.schedule(
             discoveryTime,
             playbackPort::pause
         );
 
-        // 3️⃣ Reveal : seek vers le "refrain" + play
+        /* ======================
+           REVEAL
+           ====================== */
         scheduler.schedule(
             discoveryTime + 1,
             () -> {
-                int revealSecond = computeRevealSecond(track);
+                blindtest.startReveal();
+
+                int revealSecond =
+                        track.computeRevealSecond(discoveryTime, revealTime);
                 playbackPort.seekToSecond(revealSecond);
                 playbackPort.resume();
             }
         );
 
-        // 4️⃣ Fin du reveal + round suivant
+        /* ======================
+           FIN DU ROUND
+           ====================== */
         scheduler.schedule(
             discoveryTime + revealTime,
             () -> {
                 playbackPort.pause();
+
+                blindtest.finishRound();
                 track.markAsPlayed();
                 blindtest.nextTrack();
 
@@ -75,28 +85,4 @@ public class DefaultPlayBlindtestRoundUseCase
             }
         );
     }
-    private int computeRevealSecond(BlindtestTrack track) {
-
-        int duration = track.getDurationSec();
-
-        int discoveryTime = timePort.getDiscoveryTimeSec();
-        int revealTime = timePort.getRevealTimeSec();
-
-        // règle métier :
-        // - le reveal commence APRÈS la discovery
-        // - jamais trop tôt
-        // - jamais trop tard
-        int minReveal = discoveryTime;
-        int maxReveal = duration - revealTime;
-
-        if (maxReveal <= minReveal) {
-            return duration / 2;
-        }
-
-        // ratio "musical" raisonnable
-        int estimated = (int) (duration * 0.30);
-
-        return Math.max(minReveal, Math.min(estimated, maxReveal));
-    }
-
 }

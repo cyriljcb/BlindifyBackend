@@ -32,4 +32,27 @@ public class BlindtestTrack {
     public int getDurationSec(){
         return music.getDurationMs()/1000;
     }
+    /**
+     * Règle métier :
+     * - le reveal commence APRÈS la discovery
+     * - jamais trop tôt
+     * - jamais trop tard
+     */
+    public int computeRevealSecond(int discoveryTimeSec, int revealTimeSec) {
+
+        int duration = getDurationSec();
+
+        int minReveal = discoveryTimeSec;
+        int maxReveal = duration - revealTimeSec;
+
+        // cas morceau trop court
+        if (maxReveal <= minReveal) {
+            return duration / 2;
+        }
+
+        // ratio "musical" raisonnable
+        int estimated = (int) (duration * 0.30);
+
+        return Math.max(minReveal, Math.min(estimated, maxReveal));
+    }
 }

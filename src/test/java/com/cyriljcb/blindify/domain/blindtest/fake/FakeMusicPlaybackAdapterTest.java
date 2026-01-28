@@ -22,4 +22,8 @@ public class FakeMusicPlaybackAdapterTest implements MusicPlaybackPort {
 
     @Override
     public void stop() {}
+
+    @Override
+    public void resume() {
+    }
 }

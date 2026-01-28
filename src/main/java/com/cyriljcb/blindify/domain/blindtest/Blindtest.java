@@ -8,6 +8,8 @@ import com.cyriljcb.blindify.domain.blindtest.exception.NoMoreTrackException;
 import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
 import com.cyriljcb.blindify.domain.blindteststate.BlindtestState;
 import com.cyriljcb.blindify.domain.blindtesttrack.BlindtestTrack;
+import com.cyriljcb.blindify.domain.roundphase.RoundPhase;
+
 
 public class Blindtest {
 
@@ -15,6 +17,7 @@ public class Blindtest {
     private final BlindtestSettings settings;
     private int currentIndex = 0;
     private BlindtestState state = BlindtestState.CREATED;
+    private RoundPhase currentPhase;
 
     public Blindtest(List<BlindtestTrack> tracks,
                      BlindtestSettings settings) {
@@ -80,5 +83,19 @@ public class Blindtest {
     }
     public int getCurrentIndex() {
         return currentIndex;
+    }
+    public RoundPhase getCurrentPhase() {
+        return currentPhase;
+    }
+    public void startDiscovery() {
+        this.currentPhase = RoundPhase.DISCOVERY;
+    }
+
+    public void startReveal() {
+        this.currentPhase = RoundPhase.REVEAL;
+    }
+
+    public void finishRound() {
+        this.currentPhase = RoundPhase.IDLE;
     }
 }

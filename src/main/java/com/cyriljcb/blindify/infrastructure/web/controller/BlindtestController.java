@@ -12,6 +12,7 @@ import com.cyriljcb.blindify.domain.blindtest.StartBlindtestUseCase;
 import com.cyriljcb.blindify.domain.blindtest.exception.NoActiveBlindtestException;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.infrastructure.web.dto.BlindtestStateResponse;
+import com.cyriljcb.blindify.infrastructure.web.dto.RoundPhaseResponse;
 import com.cyriljcb.blindify.infrastructure.web.dto.StartBlindtestRequest;
 
 @RestController
@@ -44,7 +45,15 @@ public class BlindtestController {
 
         return BlindtestStateResponse.from(blindtest);
     }
+    @GetMapping("/round-phase")
+    public RoundPhaseResponse roundPhase() {
+        var blindtest = sessionRepository.getCurrent()
+                .orElseThrow(() ->
+                    new NoActiveBlindtestException("No blindtest is currently active")
+                );
 
+        return RoundPhaseResponse.from(blindtest.getCurrentPhase());
+    }
 
 
 }
