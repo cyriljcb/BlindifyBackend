@@ -8,7 +8,7 @@ import com.cyriljcb.blindify.domain.blindtest.exception.NoMoreTrackException;
 import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
 import com.cyriljcb.blindify.domain.blindteststate.BlindtestState;
 import com.cyriljcb.blindify.domain.blindtesttrack.BlindtestTrack;
-import com.cyriljcb.blindify.domain.roundphase.RoundPhase;
+import com.cyriljcb.blindify.domain.round.RoundPhase;
 
 
 public class Blindtest {

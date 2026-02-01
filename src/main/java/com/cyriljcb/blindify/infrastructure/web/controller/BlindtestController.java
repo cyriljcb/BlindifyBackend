@@ -1,16 +1,12 @@
 package com.cyriljcb.blindify.infrastructure.web.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cyriljcb.blindify.domain.blindtest.StartBlindtestUseCase;
 import com.cyriljcb.blindify.domain.blindtest.exception.NoActiveBlindtestException;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
+import com.cyriljcb.blindify.domain.round.RoundOrchestrator;
 import com.cyriljcb.blindify.infrastructure.web.dto.BlindtestStateResponse;
 import com.cyriljcb.blindify.infrastructure.web.dto.RoundPhaseResponse;
 import com.cyriljcb.blindify.infrastructure.web.dto.StartBlindtestRequest;
@@ -21,20 +17,29 @@ public class BlindtestController {
 
     private final StartBlindtestUseCase startBlindtestUseCase;
     private final BlindtestSessionRepository sessionRepository;
+    private final RoundOrchestrator roundOrchestrator;
 
-    public BlindtestController(StartBlindtestUseCase startBlindtestUseCase, BlindtestSessionRepository blindtestSessionRepository) {
+    public BlindtestController(
+            StartBlindtestUseCase startBlindtestUseCase,
+            BlindtestSessionRepository sessionRepository,
+            RoundOrchestrator roundOrchestrator
+    ) {
         this.startBlindtestUseCase = startBlindtestUseCase;
-        this.sessionRepository = blindtestSessionRepository;
+        this.sessionRepository = sessionRepository;
+        this.roundOrchestrator = roundOrchestrator;
     }
 
     @PostMapping("/start")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void startBlindtest(@RequestBody StartBlindtestRequest request) {
+
         startBlindtestUseCase.start(
             request.playlistId(),
             request.tracks()
         );
+        roundOrchestrator.start();
     }
+
     @GetMapping("/state")
     public BlindtestStateResponse state() {
         var blindtest = sessionRepository.getCurrent()
@@ -45,6 +50,7 @@ public class BlindtestController {
 
         return BlindtestStateResponse.from(blindtest);
     }
+
     @GetMapping("/round-phase")
     public RoundPhaseResponse roundPhase() {
         var blindtest = sessionRepository.getCurrent()
@@ -54,6 +60,4 @@ public class BlindtestController {
 
         return RoundPhaseResponse.from(blindtest.getCurrentPhase());
     }
-
-
 }
