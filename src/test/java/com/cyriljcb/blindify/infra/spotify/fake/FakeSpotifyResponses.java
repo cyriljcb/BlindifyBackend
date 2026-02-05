@@ -2,21 +2,21 @@ package com.cyriljcb.blindify.infra.spotify.fake;
 
 import java.util.List;
 
-import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistItemDto;
-import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistResponse;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistTrackItemDto;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistTracksResponse;
 import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyTrackDto;
 
 public class FakeSpotifyResponses {
-    public static SpotifyPlaylistResponse oneTrack() {
+    public static SpotifyPlaylistTracksResponse oneTrack() {
 
         SpotifyTrackDto trackDto = new SpotifyTrackDto(); 
         trackDto.id = "track-1"; 
         trackDto.name = "Song 1"; 
         trackDto.duration_ms = 180000; 
-        SpotifyPlaylistItemDto itemDto = new SpotifyPlaylistItemDto(); 
+        SpotifyPlaylistTrackItemDto itemDto = new SpotifyPlaylistTrackItemDto(); 
         itemDto.track = trackDto;
 
-         SpotifyPlaylistResponse response = new SpotifyPlaylistResponse();
+         SpotifyPlaylistTracksResponse response = new SpotifyPlaylistTracksResponse();
         response.items = List.of(itemDto);
         return response;
     }

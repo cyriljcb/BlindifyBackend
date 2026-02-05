@@ -7,7 +7,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyAuthProvider;
-import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistResponse;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistTracksResponse;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyUserPlaylistsResponse;
 
 public class SpotifyHttpClient implements SpotifyClient{
     private final RestTemplate restTemplate;
@@ -20,7 +21,7 @@ public class SpotifyHttpClient implements SpotifyClient{
     }
 
     @Override
-    public SpotifyPlaylistResponse getPlaylistTracks(String playlistId) {
+    public SpotifyPlaylistTracksResponse getPlaylistTracks(String playlistId) {
 
         String url =
             "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
@@ -34,7 +35,24 @@ public class SpotifyHttpClient implements SpotifyClient{
                 url,
                 HttpMethod.GET,
                 entity,
-                SpotifyPlaylistResponse.class
+                SpotifyPlaylistTracksResponse.class
+        ).getBody();
+    }
+
+    @Override
+    public SpotifyUserPlaylistsResponse getUserPlaylists() {
+        String url = "https://api.spotify.com/v1/me/playlists";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(authProvider.getAccessToken());
+
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        return restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                SpotifyUserPlaylistsResponse.class
         ).getBody();
     }
 }

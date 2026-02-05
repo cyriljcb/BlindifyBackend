@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyAuthProvider;
 import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyHttpClient;
-import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistResponse;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistTracksResponse;
 
 public class SpotifyHttpClientTest {
 
@@ -31,21 +31,21 @@ public class SpotifyHttpClientTest {
     @Test
     public void should_call_spotify_api_with_bearer_token_and_return_response(){
         
-        SpotifyPlaylistResponse response = new SpotifyPlaylistResponse();
+        SpotifyPlaylistTracksResponse response = new SpotifyPlaylistTracksResponse();
 
         when(authProvider.getAccessToken()).thenReturn("fake-token");
 
-        ResponseEntity<SpotifyPlaylistResponse> httpResponse =
+        ResponseEntity<SpotifyPlaylistTracksResponse> httpResponse =
                 new ResponseEntity<>(response, HttpStatus.OK);
 
         when(restTemplate.exchange(
                 eq("https://api.spotify.com/v1/playlists/playlist-123/tracks"),
                 eq(HttpMethod.GET),
                 any(HttpEntity.class),
-                eq(SpotifyPlaylistResponse.class)
+                eq(SpotifyPlaylistTracksResponse.class)
         )).thenReturn(httpResponse);
         
-        SpotifyPlaylistResponse result = httpClient.getPlaylistTracks("playlist-123");
+        SpotifyPlaylistTracksResponse result = httpClient.getPlaylistTracks("playlist-123");
         
         assertSame(response, result);
 
@@ -54,7 +54,7 @@ public class SpotifyHttpClientTest {
             anyString(),
             eq(HttpMethod.GET),
             any(HttpEntity.class),
-            eq(SpotifyPlaylistResponse.class)
+            eq(SpotifyPlaylistTracksResponse.class)
         );
     }
     

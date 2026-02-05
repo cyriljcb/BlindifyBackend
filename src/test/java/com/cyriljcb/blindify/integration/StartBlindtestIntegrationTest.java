@@ -21,7 +21,7 @@ import com.cyriljcb.blindify.infrastructure.blindtest.InMemoryBlindtestSessionRe
 import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyAuthProvider;
 import com.cyriljcb.blindify.infrastructure.spotify.catalog.SpotifyMusicCatalogAdapter;
 import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyHttpClient;
-import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistResponse;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistTracksResponse;
 import com.cyriljcb.blindify.infrastructure.spotify.mapper.SpotifyMusicMapper;
 
 public class StartBlindtestIntegrationTest {
@@ -58,13 +58,13 @@ public class StartBlindtestIntegrationTest {
                 );
 
         // Fake Spotify response
-        SpotifyPlaylistResponse response = FakeSpotifyResponses.oneTrack();
+        SpotifyPlaylistTracksResponse response = FakeSpotifyResponses.oneTrack();
         when(authProvider.getAccessToken()).thenReturn("token");
         when(restTemplate.exchange(
                 anyString(),
                 any(),
                 any(),
-                eq(SpotifyPlaylistResponse.class)
+                eq(SpotifyPlaylistTracksResponse.class)
         )).thenReturn(ResponseEntity.ok(response));
 
         // WHEN

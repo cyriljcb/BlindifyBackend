@@ -1,5 +1,5 @@
 package com.cyriljcb.blindify.infrastructure.spotify.dto;
 
-public class SpotifyPlaylistItemDto {
+public class SpotifyPlaylistTrackItemDto {
     public SpotifyTrackDto track;
 }

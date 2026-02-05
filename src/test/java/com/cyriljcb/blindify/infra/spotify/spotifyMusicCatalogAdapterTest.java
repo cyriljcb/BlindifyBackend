@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 import com.cyriljcb.blindify.domain.music.Music;
 import com.cyriljcb.blindify.infrastructure.spotify.catalog.SpotifyMusicCatalogAdapter;
 import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyClient;
-import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistItemDto;
-import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistResponse;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistTrackItemDto;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistTracksResponse;
 import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyTrackDto;
 import com.cyriljcb.blindify.infrastructure.spotify.mapper.SpotifyMusicMapper;
 
@@ -38,10 +38,10 @@ public class spotifyMusicCatalogAdapterTest {
         trackDto.id = "track-1";
         trackDto.name = "Song 1";
         trackDto.duration_ms = 180000;
-        SpotifyPlaylistItemDto itemDto = new SpotifyPlaylistItemDto();
+        SpotifyPlaylistTrackItemDto itemDto = new SpotifyPlaylistTrackItemDto();
         itemDto.track = trackDto;
 
-        SpotifyPlaylistResponse response = new SpotifyPlaylistResponse();
+        SpotifyPlaylistTracksResponse response = new SpotifyPlaylistTracksResponse();
         response.items = List.of(itemDto);
 
 
@@ -57,7 +57,7 @@ public class spotifyMusicCatalogAdapterTest {
 
     @Test
     void should_return_empty_list_when_playlist_has_no_items() {
-        SpotifyPlaylistResponse response = new SpotifyPlaylistResponse();
+        SpotifyPlaylistTracksResponse response = new SpotifyPlaylistTracksResponse();
         response.items = List.of();
 
         when(spotifyClient.getPlaylistTracks(anyString()))

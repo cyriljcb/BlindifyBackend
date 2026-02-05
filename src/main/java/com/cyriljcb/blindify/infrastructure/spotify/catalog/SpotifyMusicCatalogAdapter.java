@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Profile;
 import com.cyriljcb.blindify.domain.music.Music;
 import com.cyriljcb.blindify.domain.music.port.MusicCatalogPort;
 import com.cyriljcb.blindify.infrastructure.spotify.client.SpotifyClient;
-import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistResponse;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistTracksResponse;
 import com.cyriljcb.blindify.infrastructure.spotify.mapper.SpotifyMusicMapper;
 
 @Profile("!test")
@@ -24,7 +24,7 @@ public class SpotifyMusicCatalogAdapter implements MusicCatalogPort{
     @Override
     public List<Music> getMusicFromPlaylist(String playlistId){
         try {
-            SpotifyPlaylistResponse response = spotifyClient.getPlaylistTracks(playlistId);
+            SpotifyPlaylistTracksResponse response = spotifyClient.getPlaylistTracks(playlistId);
             return response.items.stream().map(item-> musicMapper.toDomain(item.track)).toList();
         } catch (Exception e) {
             throw new SpotifyCatalogException("Error accessing Spotify");

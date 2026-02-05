@@ -1,8 +1,9 @@
 package com.cyriljcb.blindify.infrastructure.spotify.client;
 
-import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistResponse;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyPlaylistTracksResponse;
+import com.cyriljcb.blindify.infrastructure.spotify.dto.SpotifyUserPlaylistsResponse;
 
 public interface SpotifyClient {
-    public SpotifyPlaylistResponse getPlaylistTracks(String playlistId);
- 
+    public SpotifyPlaylistTracksResponse getPlaylistTracks(String playlistId);
+    public SpotifyUserPlaylistsResponse getUserPlaylists();
 }
