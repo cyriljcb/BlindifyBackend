@@ -37,7 +37,8 @@ public class BlindtestRoundOrchestrator implements RoundOrchestrator {
                 .orElseThrow(NoActiveBlindtestException::new);
 
         if (blindtest.isFinished()) {
-            playbackPort.pause();
+            //playbackPort.pause();
+            System.out.println("BLINDTEST FINI");
             eventPublisher.publishBlindtestFinished(BlindtestFinishedEvent.create());
             return;
         }
@@ -80,8 +81,8 @@ public class BlindtestRoundOrchestrator implements RoundOrchestrator {
                     track.getMusic().getArtistNames(),
                     track.getMusic().getImageUrl(),
                     revealTime,
-                    currentRound,   // ← Ajouté
-                    totalRounds     // ← Ajouté
+                    currentRound,
+                    totalRounds 
                 )
             );
 
@@ -95,9 +96,14 @@ public class BlindtestRoundOrchestrator implements RoundOrchestrator {
 
             blindtest.finishRound();
             track.markAsPlayed();
+             boolean wasLastTrack = (blindtest.getCurrentIndex() == blindtest.getTrackCount() - 1);
             blindtest.nextTrack();
 
-            playNextRound();
+             if (wasLastTrack) {
+                eventPublisher.publishBlindtestFinished(BlindtestFinishedEvent.create());
+                } else {
+                    playNextRound();
+                }
         });
     }
 
