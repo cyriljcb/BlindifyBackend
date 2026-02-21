@@ -1,5 +1,10 @@
 package com.cyriljcb.blindify.infrastructure.web.controller;
 
+import java.io.IOException;
+
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +17,9 @@ import com.cyriljcb.blindify.infrastructure.spotify.auth.SpotifyAuthorizationCod
 public class SpotifyAuthCallbackController {
 
     private final SpotifyAuthorizationCodeService authService;
+    
+    @Value("${frontend.url:http://localhost:4200}")
+    private String frontendUrl;
 
     public SpotifyAuthCallbackController(
             SpotifyAuthorizationCodeService authService
@@ -20,11 +28,12 @@ public class SpotifyAuthCallbackController {
     }
 
     @GetMapping("/callback")
-    public String callback(@RequestParam("code") String code) {
+    public void callback(
+            @RequestParam("code") String code,
+            HttpServletResponse response
+    ) throws IOException {
         
         authService.exchangeCodeForToken(code);
-
-        return "Spotify authentication successful. You can close this page.";
+        response.sendRedirect(frontendUrl + "/playlists");
     }
 }
-

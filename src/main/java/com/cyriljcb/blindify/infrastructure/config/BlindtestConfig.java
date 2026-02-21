@@ -11,19 +11,18 @@ import com.cyriljcb.blindify.domain.music.port.MusicCatalogPort;
 import com.cyriljcb.blindify.domain.music.port.MusicPlaybackPort;
 import com.cyriljcb.blindify.domain.round.BlindtestRoundOrchestrator;
 import com.cyriljcb.blindify.domain.trackselector.TrackSelector;
+import com.cyriljcb.blindify.infrastructure.websocket.WebSocketEventPublisher;
 
 @Configuration
 public class BlindtestConfig {
      @Bean
     StartBlindtestUseCase startBlindtestUseCase(
             MusicCatalogPort catalogPort,
-            MusicTimePort timePort,
             TrackSelector trackSelector,
             BlindtestSessionRepository sessionRepository
     ) {
         return new StartBlindtestUseCase(
                 catalogPort,
-                timePort,
                 trackSelector,
                 sessionRepository
         );
@@ -31,15 +30,15 @@ public class BlindtestConfig {
     @Bean
     BlindtestRoundOrchestrator roundOrchestrator(
             MusicPlaybackPort playbackPort,
-            MusicTimePort timePort,
             BlindtestSessionRepository sessionRepository,
-            GameSchedulerPort schedulerPort
+            GameSchedulerPort schedulerPort,
+            WebSocketEventPublisher eventPublisher 
     ) {
         return new BlindtestRoundOrchestrator(
                 sessionRepository,
                 playbackPort,
-                timePort,
-                schedulerPort
+                schedulerPort,
+                eventPublisher
         );
     }
 }

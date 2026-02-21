@@ -2,9 +2,8 @@ package com.cyriljcb.blindify.infrastructure.spotify.dto;
 
 import java.util.List;
 
-public class SpotifyPlaylistDto {
+public class SpotifyAlbumDto {
     public String id;
-    public String name;
-    public SpotifyPlaylistTracksInfoDto tracks;
+    public String release_date;
     public List<SpotifyImageDto> images;
 }

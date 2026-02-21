@@ -81,7 +81,7 @@ public class SpotifyConfig {
     @Bean
     public SpotifyClient spotifyClient(
             RestTemplate spotifyRestTemplate,
-            @Qualifier("catalogAuth") SpotifyAuthProvider authProvider
+            @Qualifier("userAuth") SpotifyAuthProvider authProvider
     ) {
         return new SpotifyHttpClient(
                 spotifyRestTemplate,

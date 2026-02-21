@@ -9,8 +9,8 @@ public record BlindtestResponse(
 ) {
     public static BlindtestResponse from(Blindtest blindtest) {
         return new BlindtestResponse(
-            0,   //blindtest.trackCount(),
-           0,// blindtest.getCurrentIndex(),
+            blindtest.getTrackCount(),
+           blindtest.getCurrentIndex(),
             blindtest.getState().name()
         );
     }

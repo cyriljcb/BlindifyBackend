@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.cyriljcb.blindify.domain.blindtest.StartBlindtestUseCase;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
+import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
 import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
 import com.cyriljcb.blindify.domain.music.port.MusicCatalogPort;
 import com.cyriljcb.blindify.domain.trackselector.TrackSelector;
@@ -39,10 +40,7 @@ public class StartBlindtestIntegrationTest {
         MusicCatalogPort catalogPort =
                 new SpotifyMusicCatalogAdapter(spotifyClient, mapper);
 
-        // Time
-        MusicTimePort timePort = mock(MusicTimePort.class);
-        when(timePort.getRevealTimeSec()).thenReturn(10);
-        when(timePort.getDiscoveryTimeSec()).thenReturn(20);
+        BlindtestSettings settings = new BlindtestSettings(20, 20);
 
         // Session
         BlindtestSessionRepository sessionRepository =
@@ -52,7 +50,6 @@ public class StartBlindtestIntegrationTest {
         StartBlindtestUseCase useCase =
                 new StartBlindtestUseCase(
                         catalogPort,
-                        timePort,
                         new TrackSelector(),
                         sessionRepository
                 );
@@ -68,7 +65,7 @@ public class StartBlindtestIntegrationTest {
         )).thenReturn(ResponseEntity.ok(response));
 
         // WHEN
-        useCase.start("playlist-123", 1);
+        useCase.start("playlist-123", 1, settings);
 
         // THEN
         var blindtest = sessionRepository.getCurrent();

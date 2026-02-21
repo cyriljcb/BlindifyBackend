@@ -15,8 +15,8 @@ public class FakeSpotifyClientAdapter implements MusicCatalogPort {
     @Override
     public List<Music> getMusicFromPlaylist(String playlistId) {
         return List.of(
-            new Music("1", "Fake Song 1", 180000, null, null, null, null, null, null),
-            new Music("2", "Fake Song 2", 200000, null, null, null, null, null, null)
+            new Music("1", "Fake Song 1", 180000, null, null,null),
+            new Music("2", "Fake Song 2", 200000, null, null,null)
         );
     }
 }

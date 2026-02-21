@@ -33,5 +33,11 @@ public class SpotifyUserAuthProvider
         this.refreshToken = refreshToken;
         this.expiresAt = Instant.now().plusSeconds(expiresIn - 30);
     }
+    
+    public boolean hasValidAccessToken() {
+        return accessToken != null && !tokenExpired();
+    }
+
 }
+
 

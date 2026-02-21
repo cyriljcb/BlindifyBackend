@@ -20,8 +20,8 @@ public class BlindtestTest {
     @Test
     void should_create_blindtest_when_inputs_are_valid(){
         List<BlindtestTrack> tracks = List.of(
-            new BlindtestTrack(new Music("1","Track1",15000,null,null,null,null,null,null)),
-            new BlindtestTrack(new Music("2","Track2",25000,null,null,null,null,null,null))
+            new BlindtestTrack(new Music("1","Track1",15000,null,null,null)),
+            new BlindtestTrack(new Music("2","Track2",25000,null,null,null))
         );
         blindtestsettings = new BlindtestSettings(10, 10);
         assertNotNull(new Blindtest(tracks, blindtestsettings));
@@ -44,8 +44,8 @@ public class BlindtestTest {
     @Test
     void should_throw_an_exception_when_blindtestSettings_is_null(){
         List<BlindtestTrack> tracks = List.of(
-            new BlindtestTrack(new Music("1","Track1",15000,null,null,null,null,null,null)),
-            new BlindtestTrack(new Music("2","Track2",25000,null,null,null,null,null,null))
+            new BlindtestTrack(new Music("1","Track1",15000,null,null,null)),
+            new BlindtestTrack(new Music("2","Track2",25000,null,null,null))
         );
          InvalidBlindtestConfigurationException ex = assertThrows(InvalidBlindtestConfigurationException.class, ()->new Blindtest(tracks,null));
         assertEquals("Blindtest requires at least one track and valid settings", ex.getMessage());

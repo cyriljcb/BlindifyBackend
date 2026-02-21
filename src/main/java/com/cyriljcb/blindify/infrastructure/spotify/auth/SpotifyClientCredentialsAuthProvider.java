@@ -69,5 +69,10 @@ public class SpotifyClientCredentialsAuthProvider implements SpotifyAuthProvider
         this.tokenExpiration =
                 Instant.now().plusSeconds(response.expiresIn - 30);
     }
+
+    @Override
+    public boolean hasValidAccessToken() {
+        return cachedToken != null && !tokenExpired();
+    }
 }
 

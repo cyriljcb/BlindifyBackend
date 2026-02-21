@@ -21,23 +21,47 @@ public class SpotifyHttpClient implements SpotifyClient{
     }
 
     @Override
-    public SpotifyPlaylistTracksResponse getPlaylistTracks(String playlistId) {
+    public SpotifyPlaylistTracksResponse getPlaylistTracks(String playlistId) 
+    {
 
-        String url =
-            "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
+        int limit = 100;
+        int offset = 0;
+        SpotifyPlaylistTracksResponse fullResponse = new SpotifyPlaylistTracksResponse();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(authProvider.getAccessToken());
+        while (true) {
+            String url =
+                "https://api.spotify.com/v1/playlists/" + playlistId +
+                "/tracks?limit=" + limit + "&offset=" + offset;
 
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(authProvider.getAccessToken());
 
-        return restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                entity,
-                SpotifyPlaylistTracksResponse.class
-        ).getBody();
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+            SpotifyPlaylistTracksResponse response =
+                restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    entity,
+                    SpotifyPlaylistTracksResponse.class
+                ).getBody();
+
+            if (response == null || response.items == null) {
+                break;
+            }
+
+            fullResponse.items.addAll(response.items);
+
+            if (response.items.size() < limit) {
+                break; // dernière page
+            }
+
+            offset += limit;
+        }
+
+        return fullResponse;
     }
+
 
     @Override
     public SpotifyUserPlaylistsResponse getUserPlaylists() {

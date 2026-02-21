@@ -10,8 +10,9 @@ public class Music {
     private String albumId;       
     private String[] genres;     
     private String releaseYear; 
+    private String imageUrl;
     
-    public Music(String id,String name,int durationMs, String[] artistNames, String prevString,  String artistId, String albumId, String[] genres, String releaseYear) throws InvalidMusicException{
+    public Music(String id,String name,int durationMs, String[] artistNames, String releaseYear, String imageUrl) throws InvalidMusicException{
         if (id==null || id.isBlank() ||name == null || name.isBlank())
             throw new InvalidMusicException("Music requires a valid id and a valid name");
         if(durationMs<=0)
@@ -19,12 +20,9 @@ public class Music {
         this.id = id;
         this.name = name;
         this.artistNames = artistNames;
-        this.previewUrl = prevString;
         this.durationMs = durationMs;
-        this.artistId = artistId;
-        this.albumId = albumId;
-        this.genres = genres;
         this.releaseYear = releaseYear;
+        this.imageUrl = imageUrl;
     }
     public String getId(){
         return this.id;
@@ -34,5 +32,17 @@ public class Music {
     }
     public int getDurationMs(){
         return this.durationMs;
+    }
+    public String[] getArtistNames() {
+         return artistNames; 
+    }
+    public String getPreviewUrl() {
+        return previewUrl; 
+    }
+    public String getReleaseYear() { 
+        return releaseYear; 
+    }
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import com.cyriljcb.blindify.domain.blindtest.StartBlindtestUseCase;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
+import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -22,7 +23,8 @@ public class BlindtestIntegrationTest {
 
     @Test
     void should_start_blindtest_with_fake_spotify() {
-        useCase.start("fake-playlist", 2);
+        BlindtestSettings settings = new BlindtestSettings(20, 20);
+        useCase.start("fake-playlist", 2,settings);
 
         var blindtest = sessionRepository.getCurrent();
 

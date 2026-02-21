@@ -10,6 +10,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
 import com.cyriljcb.blindify.infrastructure.web.dto.ApiErrorResponse;
 import com.cyriljcb.blindify.infrastructure.web.dto.StartBlindtestRequest;
 
@@ -24,8 +25,9 @@ class BlindtestControllerIntegrationTest {
 
     @Test
     void should_start_blindtest() {
+        BlindtestSettings settings = new BlindtestSettings(20,20);
         StartBlindtestRequest request =
-            new StartBlindtestRequest("fake-playlist", 2);
+            new StartBlindtestRequest("fake-playlist", 2,settings.getDiscoveryTimeSec(),settings.getRevealTimeSec());
 
         ResponseEntity<Void> response =
             restTemplate.postForEntity(
@@ -38,8 +40,9 @@ class BlindtestControllerIntegrationTest {
     }
     @Test
     void should_return_400_when_tracks_is_invalid() {
+        BlindtestSettings settings = new BlindtestSettings(20,20);
         StartBlindtestRequest request =
-            new StartBlindtestRequest("fake-playlist", 0);
+            new StartBlindtestRequest("fake-playlist", 0,settings.getDiscoveryTimeSec(),settings.getRevealTimeSec());
 
         ResponseEntity<ApiErrorResponse> response =
             restTemplate.postForEntity(

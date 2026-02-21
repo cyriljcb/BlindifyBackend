@@ -70,4 +70,7 @@ public class SpotifyAuthorizationCodeService {
                 response.expiresIn
         );
     }
+        public boolean isAuthenticated() {
+        return authProvider.hasValidAccessToken();
+    }
 }

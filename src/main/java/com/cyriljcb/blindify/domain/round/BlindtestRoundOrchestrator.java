@@ -3,26 +3,28 @@ package com.cyriljcb.blindify.domain.round;
 import com.cyriljcb.blindify.domain.blindtest.exception.NoActiveBlindtestException;
 import com.cyriljcb.blindify.domain.blindtest.port.BlindtestSessionRepository;
 import com.cyriljcb.blindify.domain.blindtest.port.GameSchedulerPort;
-import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
 import com.cyriljcb.blindify.domain.music.port.MusicPlaybackPort;
+import com.cyriljcb.blindify.infrastructure.web.dto.BlindtestFinishedEvent;
+import com.cyriljcb.blindify.infrastructure.web.dto.PhaseEvent;
+import com.cyriljcb.blindify.infrastructure.websocket.WebSocketEventPublisher;
 
 public class BlindtestRoundOrchestrator implements RoundOrchestrator {
 
     private final BlindtestSessionRepository sessionRepository;
     private final MusicPlaybackPort playbackPort;
-    private final MusicTimePort timePort;
     private final GameSchedulerPort scheduler;
+    private final WebSocketEventPublisher eventPublisher; 
 
     public BlindtestRoundOrchestrator(
             BlindtestSessionRepository sessionRepository,
             MusicPlaybackPort playbackPort,
-            MusicTimePort timePort,
-            GameSchedulerPort scheduler
+            GameSchedulerPort scheduler,
+            WebSocketEventPublisher eventPublisher 
     ) {
         this.sessionRepository = sessionRepository;
         this.playbackPort = playbackPort;
-        this.timePort = timePort;
         this.scheduler = scheduler;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -36,26 +38,54 @@ public class BlindtestRoundOrchestrator implements RoundOrchestrator {
 
         if (blindtest.isFinished()) {
             playbackPort.pause();
+            eventPublisher.publishBlindtestFinished(BlindtestFinishedEvent.create());
             return;
         }
 
         var track = blindtest.getCurrentTrack();
-        var discoveryTime = timePort.getDiscoveryTimeSec();
-        var revealTime = timePort.getRevealTimeSec();
+        var settings = blindtest.getSettings();
+        var discoveryTime = settings.getDiscoveryTimeSec();
+        var revealTime = settings.getRevealTimeSec();
 
-        // --- DISCOVERY ---
+        int currentRound = blindtest.getCurrentIndex() + 1;  
+        int totalRounds = blindtest.getTrackCount();
+
         blindtest.startDiscovery();
+        
+        eventPublisher.publishPhaseChange(
+            PhaseEvent.of(
+                RoundPhase.DISCOVERY,
+                track.getMusic().getId(),
+                track.getMusic().getTitle(),
+                track.getMusic().getArtistNames(),
+                track.getMusic().getImageUrl(),
+                discoveryTime,
+                currentRound,   
+                totalRounds 
+            )
+        );
+        
         playbackPort.playTrack(track.getMusic().getId());
 
         scheduler.schedule(discoveryTime, () -> {
             playbackPort.pause();
 
-            // --- REVEAL ---
             blindtest.startReveal();
+            
+            eventPublisher.publishPhaseChange(
+                PhaseEvent.of(
+                    RoundPhase.REVEAL,
+                    track.getMusic().getId(),
+                    track.getMusic().getTitle(),
+                    track.getMusic().getArtistNames(),
+                    track.getMusic().getImageUrl(),
+                    revealTime,
+                    currentRound,   // ← Ajouté
+                    totalRounds     // ← Ajouté
+                )
+            );
 
-            int revealSecond =
-                    track.computeRevealSecond(discoveryTime, revealTime);
-
+            int revealSecond = track.computeRevealSecond(discoveryTime, revealTime);
             playbackPort.seekToSecond(revealSecond);
             playbackPort.resume();
         });

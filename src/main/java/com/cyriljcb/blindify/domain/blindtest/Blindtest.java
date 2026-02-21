@@ -6,12 +6,13 @@ import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestConfigur
 import com.cyriljcb.blindify.domain.blindtest.exception.InvalidBlindtestStateException;
 import com.cyriljcb.blindify.domain.blindtest.exception.NoMoreTrackException;
 import com.cyriljcb.blindify.domain.blindtestsettings.BlindtestSettings;
+import com.cyriljcb.blindify.domain.blindtestsettings.port.MusicTimePort;
 import com.cyriljcb.blindify.domain.blindteststate.BlindtestState;
 import com.cyriljcb.blindify.domain.blindtesttrack.BlindtestTrack;
 import com.cyriljcb.blindify.domain.round.RoundPhase;
 
 
-public class Blindtest {
+public class Blindtest implements MusicTimePort{
 
     private final List<BlindtestTrack> tracks;
     private final BlindtestSettings settings;
@@ -97,5 +98,18 @@ public class Blindtest {
 
     public void finishRound() {
         this.currentPhase = RoundPhase.IDLE;
+    }
+    public BlindtestSettings getSettings(){
+        return settings;
+    }
+
+    @Override
+    public int getRevealTimeSec() {
+       return settings.getRevealTimeSec();
+    }
+
+    @Override
+    public int getDiscoveryTimeSec() {
+       return settings.getDiscoveryTimeSec();
     }
 }
