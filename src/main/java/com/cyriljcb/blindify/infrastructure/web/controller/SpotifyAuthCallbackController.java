@@ -34,6 +34,6 @@ public class SpotifyAuthCallbackController {
     ) throws IOException {
         
         authService.exchangeCodeForToken(code);
-        response.sendRedirect(frontendUrl + "/playlists");
+        response.sendRedirect(frontendUrl);
     }
 }

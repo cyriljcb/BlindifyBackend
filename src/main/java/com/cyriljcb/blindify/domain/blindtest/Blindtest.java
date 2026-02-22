@@ -91,7 +91,9 @@ public class Blindtest implements MusicTimePort{
     public void startDiscovery() {
         this.currentPhase = RoundPhase.DISCOVERY;
     }
-
+    public void starttransition() {
+        this.currentPhase = RoundPhase.TRANSITION;
+    }
     public void startReveal() {
         this.currentPhase = RoundPhase.REVEAL;
     }

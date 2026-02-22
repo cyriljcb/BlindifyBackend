@@ -17,10 +17,12 @@ public class SpringGameSchedulerAdapter implements GameSchedulerPort {
     }
 
     @Override
-    public void schedule(int delaySeconds, Runnable task) {
+    public void schedule(double delaySeconds, Runnable task) {
+        long delayMillis = (long) (delaySeconds * 1000);
+        
         taskScheduler.schedule(
             task,
-            Instant.now().plusSeconds(delaySeconds)
+            Instant.now().plusMillis(delayMillis)
         );
     }
 }
